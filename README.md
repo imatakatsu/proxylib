@@ -2,7 +2,7 @@
 proxy library for golang. support only http proxies in current version
 
 ## example
-```
+```golang
 package main
 
 import (
