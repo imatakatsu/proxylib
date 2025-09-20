@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	proxy "github.com/imatakatsu/proxylib"
+	proxy "github.com/imatakatsu/go-proxylib"
 )
 
 var (
