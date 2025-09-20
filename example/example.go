@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	proxy "github.com/imatakatsu/proxylib"
+	proxy "github.com/imatakatsu/go-proxylib"
 )
 
 func main() {
