@@ -70,9 +70,8 @@ func Dial(proto Proto, proxy, host string) (net.Conn, error) {
 			return nil, err
 		}
 
-		defer conn.Close()
-
 		if _, err := conn.Write([]byte(fmt.Sprintf(payload, host, host, authHeader))); err != nil {
+			conn.Close()
 			return nil, err
 		}
 
@@ -84,6 +83,7 @@ func Dial(proto Proto, proxy, host string) (net.Conn, error) {
 		for !strings.HasSuffix(parsedString, "\r\n\r\n") {
 			n, err := conn.Read(buf)
 			if err != nil {
+				conn.Close()
 				return nil, err
 			}
 
@@ -92,6 +92,7 @@ func Dial(proto Proto, proxy, host string) (net.Conn, error) {
 
 		lines := strings.Split(parsedString, "\r\n")
 		if !strings.Contains(lines[0], " 200 ") {
+			conn.Close()
 			return nil, fmt.Errorf("proxy returned invalid status code, first line: %s\r\n", lines[0])
 		}
 
@@ -134,9 +135,8 @@ func DialTimeout(proto Proto, proxy, host string, timeout time.Duration) (net.Co
 		}
 		conn.SetReadDeadline(deadline)
 
-		defer conn.Close()
-
 		if _, err := conn.Write([]byte(fmt.Sprintf(payload, host, host, authHeader))); err != nil {
+			conn.Close()
 			return nil, err
 		}
 
@@ -148,6 +148,7 @@ func DialTimeout(proto Proto, proxy, host string, timeout time.Duration) (net.Co
 		for !strings.HasSuffix(parsedString, "\r\n\r\n") {
 			n, err := conn.Read(buf)
 			if err != nil {
+				conn.Close()
 				return nil, err
 			}
 
@@ -156,6 +157,7 @@ func DialTimeout(proto Proto, proxy, host string, timeout time.Duration) (net.Co
 
 		lines := strings.Split(parsedString, "\r\n")
 		if !strings.Contains(lines[0], " 200 ") {
+			conn.Close()
 			return nil, fmt.Errorf("proxy returned invalid status code, first line: %s\r\n", lines[0])
 		}
 
