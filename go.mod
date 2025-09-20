@@ -1,3 +1,3 @@
-module github.com/imatakatsu/proxylib
+module cfamp
 
 go 1.24.6

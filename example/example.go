@@ -8,6 +8,11 @@ import (
 )
 
 func main() {
+	example()
+	exampleTimeouted()	
+}
+
+func example() {
 	conn, err := proxy.DialHTTP("tcp", "127.0.0.1:3128:admin:password", "ident.me:80")
 	if err != nil {
 		log.Fatal(err)
